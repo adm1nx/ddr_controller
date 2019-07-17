@@ -1,3 +1,6 @@
+#include <HID-Project.h>
+#include <HID-Settings.h>
+
 /*
   Copyright (c) 2014-2015 NicoHood
   See the readme for credit to other people.
@@ -12,7 +15,6 @@
   https://github.com/NicoHood/HID/wiki/Gamepad-API
 */
 
-#include "HID-Project.h"
 
 const int pinLed = LED_BUILTIN;
 const int p1_ctl_up = 2;
@@ -42,6 +44,30 @@ void setup() {
   pinMode(pinLed, OUTPUT);
   pinMode(pinButton, INPUT_PULLUP);
 
+  pinMode(p1_ctl_up, INPUT_PULLUP);
+  pinMode(p1_ctl_down, INPUT_PULLUP); 
+  pinMode(p1_ctl_left, INPUT_PULLUP);
+  pinMode(p1_ctl_right, INPUT_PULLUP);
+  pinMode(p1_ctl_enter, INPUT_PULLUP);
+
+  pinMode(p1_dnc_up, INPUT_PULLUP);
+  pinMode(p1_dnc_down, INPUT_PULLUP);
+  pinMode(p1_dnc_left, INPUT_PULLUP);
+  pinMode(p1_dnc_right, INPUT_PULLUP);
+
+  pinMode(p2_ctl_up, INPUT_PULLUP);
+  pinMode(p2_ctl_down, INPUT_PULLUP); 
+  pinMode(p2_ctl_left, INPUT_PULLUP);
+  pinMode(p2_ctl_right, INPUT_PULLUP);
+  pinMode(p2_ctl_enter, INPUT_PULLUP);
+
+  pinMode(p2_dnc_up, INPUT_PULLUP);
+  pinMode(p2_dnc_down, INPUT_PULLUP);
+  pinMode(p2_dnc_left, INPUT_PULLUP);
+  pinMode(p2_dnc_right, INPUT_PULLUP);
+
+
+
   // Sends a clean report to the host. This is important on any Arduino type.
   Gamepad1.begin();
   Gamepad2.begin();
@@ -55,11 +81,13 @@ void loop() {
     static uint8_t count = 0;
     count++;
     if (count == 33) {
-      Gamepad.releaseAll();
+      Gamepad1.releaseAll();
+      Gamepad2.releaseAll();
       count = 0;
     }
     else
-      Gamepad.press(count);
+      Gamepad1.press(count);
+      Gamepad2.press(count);
 
     // Move x/y Axis to a new position (16bit)
     Gamepad.xAxis(random(0xFFFF));
